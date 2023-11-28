@@ -1,0 +1,30 @@
+<h1>User Registration</h1>
+
+<h3>{{error}}</h3>
+
+<form action="/api/session/register" method="POST" name="register">
+        <input type="text" id="nombre" name="name" required placeholder="nombre">
+<br/><br/>
+        <input type="text" id="apellido" name="lastname" required placeholder="apellido">
+<br/><br/>
+        <input type="email" id="email" name="email" required placeholder="email">
+<br/><br/>
+        <input type="password" id="password" name="password" required placeholder="contraseña">
+<br/><br/>
+        <input type="number" id="edad" name="age" required placeholder="edad">
+<br/><br/>
+        <input type="submit" value="Registrarse">
+    </form>
+<hr>
+<a href="/api/session/signup-github">
+<button>
+        Registrarse con GITHUB
+</button>
+</a>
+<h2 style="color: blue;">{{message}}</h2>
+
+
+
+
+
+

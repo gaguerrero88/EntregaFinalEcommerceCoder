@@ -1,0 +1,27 @@
+
+<h1>Pagina Home</h1>
+{{#if userEmail}}
+  <h3>Bienvenido {{userEmail}}</h3>
+  <h3>Rol: {{userRole}}</h3>
+{{/if}}
+ <br>
+{{#each dataProducts.payload}}
+<ul>
+    <li> Nombre del producto: {{this.title}}</li>
+    <li> Descripción: {{this.description}}</li>
+    <li> Codigo: {{this.code}}</li>
+    <li> Precio: {{this.price}}</li>
+    <li> Stock: {{this.stock}}</li>
+    <li> Categoria: {{this.category}}</li>
+    <li> Thumbnails: {{this.thumbnails}}</li> <button onclick="addToCart('{{this._id}}','{{../cartID}}')">Agregar al carrito</button>
+</ul>
+{{/each}}
+{{#if dataProducts.prevLink}}
+<a href="{{dataProducts.prevLink}}">Anterior</a>
+{{/if}}
+{{#if dataProducts.nextLink}}
+<a href="{{dataProducts.nextLink}}">Siguiente</a>
+{{/if}}
+<script src="/js/home.js"></script>
+
+

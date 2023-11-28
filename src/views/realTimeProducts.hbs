@@ -1,0 +1,31 @@
+<h1>Pagina Real Time</h1>
+{{#if userRole}}
+  
+<h2>Formulario para crear producto</h2>
+<form id="creatProductForm">
+<input type="text" placeholder="Nombre del producto" name="title" required>
+<br><br>
+<input type="text" placeholder="Descripción del producto" name="description" required>
+<br><br>
+<input type="number" placeholder="Precio del producto" name="price" required>
+<br><br>
+<input type="text" placeholder="Código del producto" name="code" required>
+<br><br>
+<input type="number" placeholder="Stock del producto" name="stock" required>
+<br><br>
+<input type="text" placeholder="Categoría del producto" name="category" required>
+<br><br>
+<input type="file", name="thumbnails">
+<br><br>
+<button type="submit">Agregar Producto</button>
+</form>
+{{else}}
+<h3>No posee el rol de administrador para poder acceder a esta sección</h3>
+{{/if}}
+
+<div id="produclist"></div>
+<script src="/socket.io/socket.io.js"> </script>
+<script src="/js/realTime.js"></script>
+
+
+

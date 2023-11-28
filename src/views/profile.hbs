@@ -1,0 +1,12 @@
+<h1>Profile</h1>
+{{#if user.name}}
+  <h3>Bienvenido {{user.name}}</h3>
+{{else}}
+  <h3>{{message}}</h3>
+{{/if}}
+<br>
+<br>
+{{#if user.name}}
+<a href="/api/session/logout">Cerrar sesion</a>
+{{/if}}
+

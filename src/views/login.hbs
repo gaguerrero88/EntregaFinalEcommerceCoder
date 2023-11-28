@@ -1,0 +1,16 @@
+<h1>Log In</h1>
+<h4 style="color: red;">{{error}}</h4>
+<form action="/api/session/" method="POST">
+       
+        <input type="email" id="email" name="email" required placeholder="email">
+        <br> <br>
+        <input type="password" id="password" name="password" required placeholder="constraseña">
+          <br> <br>
+          <input type="submit" value="Log in">
+</form>
+<br>
+<a href="/api/session/signup-github">
+<button>Login con GITHUB</button>
+</a>
+<br>
+<a href="/register">Register</a>

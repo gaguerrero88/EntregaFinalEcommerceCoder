@@ -1,24 +1,24 @@
-import { productServices} from "../repository/index.js";
+import { productServices } from "../repository/index.js";
 import { response } from "../utils/response.js";
 import { ClientError } from "../utils/errors.js";
+import { generateMockProduct } from "../helpers/mock.products.js";
 
 class ProductControllers {
-
   async createProduct(req, res) {
-      const productToAdd = req.body;
-      await productServices.addProduct(productToAdd);
-      response(res, 200, productToAdd);
+    const productToAdd = req.body;
+    await productServices.addProduct(productToAdd);
+    response(res, 200, productToAdd);
   }
 
   async getProducts(req, res) {
-  const limit = parseInt(req.query.limit) || 10;
-      const product = await productServices.getProducts();
-      if (!limit) {
-        return response(res, 200, product);
-      } else {
-        const newProducts = product.slice(0, limit);
-        return response(res, 200, newProducts);
-      }
+    const limit = parseInt(req.query.limit) || 10;
+    const product = await productServices.getProducts();
+    if (!limit) {
+      return response(res, 200, product);
+    } else {
+      const newProducts = product.slice(0, limit);
+      return response(res, 200, newProducts);
+    }
   }
 
   async updateProductsByID(req, res) {
@@ -48,6 +48,17 @@ class ProductControllers {
     }
     response(res, 200, product);
   }
+
+async generateMockProduct (req,res){
+  const qty =  100;
+  let newProducts = []
+  for (let i = 0; i < qty; i++) {
+    const newProduct = generateMockProduct ()
+    newProducts.push(newProduct);
+  }
+  response(res,200,newProducts)
+}
+
 }
 
 export const productControllers = new ProductControllers();

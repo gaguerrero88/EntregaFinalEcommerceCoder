@@ -3,9 +3,10 @@ import { productControllers } from "../controllers/productsController.js";
 import { checkRole } from "../middlewares/auth.js";
 import passport from "passport";
 
+
 const router = Router();
 
-router.get("/:pid");
+router.route("/mockingproducts").get(productControllers.generateMockProduct)
 
 router
   .route("/")
@@ -15,6 +16,7 @@ router
     checkRole(["Admin"]),
     productControllers.createProduct
   );
+
 router
   .route("/:pid")
   .put(
@@ -28,5 +30,7 @@ router
     productControllers.deleteProductByID
   )
   .get(productControllers.getProductsByID);
+
+ 
 
 export { router as productsRoute };

@@ -114,6 +114,7 @@ export const initializePassport = () => {
         try {
           return done(null, jwtPayload);
         } catch (error) {
+          console.log(error);
           return done(error);
         }
       }

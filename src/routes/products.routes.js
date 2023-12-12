@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { productControllers } from "../controllers/productsController.js";
 import { checkRole } from "../middlewares/auth.js";
+import { authenticate } from "../middlewares/auth.js";
 import passport from "passport";
 
 
@@ -12,7 +13,7 @@ router
   .route("/")
   .get(productControllers.getProducts)
   .post(
-    passport.authenticate("jwtAuth", { session: false, failureRedirect: "/api/session/fail-loginauth" }),
+    authenticate("jwtAuth"),
     checkRole(["Admin"]),
     productControllers.createProduct
   );
@@ -20,12 +21,12 @@ router
 router
   .route("/:pid")
   .put(
-    passport.authenticate("jwtAuth", { session: false, failureRedirect: "/api/session/fail-loginauth" }),
+    authenticate("jwtAuth"),
     checkRole(["Admin"]),
     productControllers.updateProductsByID
   )
   .delete(
-    passport.authenticate("jwtAuth", { session: false, failureRedirect: "/api/session/fail-loginauth" }),
+    authenticate("jwtAuth"),
     checkRole(["Admin"]),
     productControllers.deleteProductByID
   )

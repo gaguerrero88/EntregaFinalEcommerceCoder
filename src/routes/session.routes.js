@@ -2,6 +2,7 @@ import { Router } from "express";
 import { userController } from "../controllers/usersController.js";
 import passport from "passport";
 import { config } from "../config/config.js";
+import { AuthError } from "../utils/errors.js";
 //import { generateToken } from "../utils.js";
 
 const router = Router();
@@ -13,24 +14,26 @@ router
     userController.registerUser
   );
 
-router
-  .route("/")
-  .post(
-    passport.authenticate("loginLocalStrategy",{session:false, failureRedirect: "/api/session/fail-login" }),
-    userController.loginUser
-  );
+
 router.route("/logout").get(userController.logoutUser);
 
 router.route("/fail-signup").get((req, res) => {
   res.render("register", { error: "El usuario ya se encuentra registrado" });
 });
 
+router
+  .route("/")
+  .post(
+    passport.authenticate("loginLocalStrategy",{session:false, failureRedirect: "/api/session/fail-login" }),
+    userController.loginUser
+  );
+
 router.route("/fail-login").get((req, res) => {
   res.render("login", { error: "No se pudo iniciar sesion" });
 });
 
 router.route("/fail-loginauth").get((req, res) => {
-  res.render("login", { error: "Inicie sesion para poder acceder" });
+  res.render("login", {error: "Inicie sesion para poder acceder" });
 });
 
 

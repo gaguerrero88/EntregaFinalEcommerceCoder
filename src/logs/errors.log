@@ -1,0 +1,25 @@
+
+
+23-12-11 23:35:04 [32minfo[39m: Escuchando en puerto 8080...
+23-12-11 23:35:05 [32minfo[39m: base de datos conectada correctamente
+23-12-11 23:37:03 [32minfo[39m: Escuchando en puerto 8080...
+23-12-11 23:37:05 [32minfo[39m: base de datos conectada correctamente
+23-12-11 23:37:24 [31mfatal[39m: log fatal
+23-12-11 23:37:24 [34merror[39m: log error
+23-12-11 23:37:24 [33mwarning[39m: log warning
+23-12-11 23:37:24 [32minfo[39m: log info
+23-12-11 23:37:48 [32minfo[39m: Escuchando en puerto 8080...
+23-12-11 23:37:50 [32minfo[39m: base de datos conectada correctamente
+23-12-11 23:37:54 [31mfatal[39m: log fatal
+23-12-11 23:37:54 [34merror[39m: log error
+23-12-11 23:37:54 [33mwarning[39m: log warning
+23-12-11 23:37:54 [32minfo[39m: log info
+23-12-11 23:40:14 [32minfo[39m: Escuchando en puerto 8080...
+23-12-11 23:40:16 [32minfo[39m: base de datos conectada correctamente
+23-12-11 23:41:23 [32minfo[39m: Escuchando en puerto 8080...
+23-12-11 23:41:25 [32minfo[39m: base de datos conectada correctamente
+23-12-11 23:41:46 [31mfatal[39m: log fatal
+23-12-11 23:41:46 [34merror[39m: log error
+23-12-11 23:41:46 [33mwarning[39m: log warning
+23-12-11 23:41:46 [32minfo[39m: log info
+23-12-12 11:03:04 [32minfo[39m: Escuchando en puerto 8080...

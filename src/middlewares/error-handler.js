@@ -1,3 +1,5 @@
+import {logger} from "../helpers/logger.js"
+
 export const errorHandler = (err, req, res, next) => {
   let customError = {
     statusCode: err.statusCode || 500,
@@ -22,6 +24,6 @@ export const errorHandler = (err, req, res, next) => {
     customError.statusCode = 400
     customError.msg = `Duplicate value entered for: ${Object.keys (err.keyValue)}, please choose another value`
   }
-
+  logger.error(customError.msg)
   res.status(customError.statusCode).json({ status: "error", message:customError.msg });
 };

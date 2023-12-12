@@ -1,11 +1,12 @@
 import express from "express";
 import "express-async-errors";
+import {config} from "./config/config.js"
+import { __dirname } from "./utils.js";
 import { productsRoute } from "./routes/products.routes.js";
 import { notFound } from "./middlewares/notFound.js";
 import { errorHandler } from "./middlewares/error-handler.js";
 import { cartRoute } from "./routes/cart.routes.js"
 import { sessionRoute } from "./routes/session.routes.js";
-import { __dirname } from "./utils.js";
 import { viewsRoutes } from "./routes/views.routes.js";
 import path from "path";
 import { productServices } from "./repository/index.js";
@@ -17,6 +18,8 @@ import exphbs from "express-handlebars";
 import { allowInsecurePrototypeAccess } from "@handlebars/allow-prototype-access";
 import passport from "passport";
 import { initializePassport } from "./config/passportconfig.js";
+import {logger} from "./helpers/logger.js"
+
 // Configuración de Handlebars
 const hbs = exphbs.create({
   extname: ".hbs",
@@ -47,7 +50,7 @@ app.use (passport.initialize())
 const port = 8080;
 
 const httpServer = app.listen(port, () => {
-  console.log(`Escuchando en puerto ${port}...`);
+  logger.info(`Escuchando en puerto ${port}...`);
 });
 
 const io = new Server(httpServer);
@@ -62,9 +65,14 @@ app.use("/api/carts", cartRoute);
 app.use("/api/session",sessionRoute);
 app.use(viewsRoutes);
 
+
+
 //nuevo manejador de errores de express porque tiene los 4 parametros
 app.use(errorHandler);
 app.use(notFound);
+
+
+
 
 
 

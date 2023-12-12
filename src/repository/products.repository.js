@@ -1,6 +1,4 @@
 
-
-
  export class ProductsRepository {
   constructor (dao){
 this.dao = dao

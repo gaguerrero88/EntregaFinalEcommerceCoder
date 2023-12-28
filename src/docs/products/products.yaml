@@ -19,6 +19,8 @@ paths:
                 $ref: "#components/schemas/Products"
         "500":
           description: Error con el servidor
+        "400":
+          description: Error de validacion por no ingresar campos obligatorios o valores duplicados
     get:
       summary: Obtener todos los productos
       tags:

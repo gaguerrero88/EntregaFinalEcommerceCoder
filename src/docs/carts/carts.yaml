@@ -36,6 +36,8 @@ paths:
           description: Error con el servidor
         "401":
           description: Id invalido
+        "404":
+          description: Id de carrito no encontrado 
     put:
       summary: Actualizar productos del carrito
       tags:
@@ -64,6 +66,8 @@ paths:
           description: Error con el servidor
         "401":
           description: Id invalido
+        "404":
+          description: Id de carrito no encontrado 
     delete:
       summary: Vaciar los productos del carrito
       tags:
@@ -86,6 +90,8 @@ paths:
           description: Error con el servidor
         "401":
           description: Id invalido
+        "404":
+          description: Id de carrito no encontrado 
     /api/carts/:
     post:
       summary: Crear carrito
@@ -190,7 +196,9 @@ paths:
         "500":
           description: Error con el servidor
         "401":
-          description: Id invalido 
+          description: Id invalido
+        "400":
+          description: valor ingresado que no es numerico o campo vacio
   /api/carts/{cid}/purchase:
     post:
       summary: Finalizar compra de carrito
@@ -219,7 +227,11 @@ paths:
         "500":
           description: Error con el servidor
         "401":
-          description: Id invalido 
+          description: Id invalido
+        "404":
+          description: Id de carrito no encontrado
+        "400":
+          description: El carrito se encuentra vacio   
 
 components:
   schemas:

@@ -1,0 +1,184 @@
+paths:
+  /api/products/:
+    post:
+      summary: Crear un producto
+      tags:
+        - Productos
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/createUpdateProduct"
+      responses:
+        "200":
+          description: El producto se creo correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Products"
+        "500":
+          description: Error con el servidor
+    get:
+      summary: Obtener todos los productos
+      tags:
+        - Productos
+      responses:
+        "200":
+          description: Los productos se obtuvieron correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Products"
+
+        "500":
+          description: Error con el servidor
+  /api/products/{pid}:
+    get:
+      summary: Obtener un producto especifico
+      tags:
+        - Productos
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: El id del producto a obtener
+          schema:
+            $type: string
+      responses:
+        "200":
+          description: El producto se obtuvo correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Products"
+        "500":
+          description: Error con el servidor
+        "401":
+          description: Id invalido
+    put:
+      summary: Actualizar un producto especifico
+      tags:
+        - Productos
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: El id del producto a actualizar
+          schema:
+            $type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/createUpdateProduct"
+      responses:
+        "200":
+          description: El producto se actualizo correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Products"
+        "500":
+          description: Error con el servidor
+        "401":
+          description: Id invalido
+    delete:
+      summary: Eliminar un producto especifico
+      tags:
+        - Productos
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: El id del producto a actualizar
+          schema:
+            $type: string
+      responses:
+        "200":
+          description: El producto se elimino correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Products"
+        "500":
+          description: Error con el servidor
+        "401":
+          description: Id invalido
+                 
+components:
+  schemas:
+    Products:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: id generado por base de datos
+        title:
+          type: String
+          description: nombre fantasia del producto
+        description:
+          type: String
+          description: detalle y caracteristicas del producto
+        price:
+          type: Number
+          description: precio del producto
+        code:
+          type: String
+          description: codigo unico del producto
+        category:
+          type: String
+          description: categoria del producto (Ropa,Tecnologia,Deportes)
+        stock:
+          type: Number
+          description: stock del producto
+        thumbnails:
+          type: Array
+          items: String
+          description: imagen del producto
+      example:
+        _id: ObjectId ("652849ac2b92b2717139a3a0")
+        title: Teclado
+        description: Inalambrico con bluetooth
+        price: 976
+        code: sadf
+        category: Tecnologia
+        stock: 300
+        thumbnails: ["pepe.jpeg"]
+  requestBodies:
+    createUpdateProduct:
+      type: object
+      properties:
+        title:
+          type: String
+          description: nombre fantasia del producto
+        description:
+          type: String
+          description: detalle y caracteristicas del producto
+        price:
+          type: Number
+          description: precio del producto
+        code:
+          type: String
+          description: codigo unico del producto
+        category:
+          type: String
+          description: categoria del producto (Ropa,Tecnologia,Deportes)
+        stock:
+          type: Number
+          description: stock del producto
+        thumbnails:
+          type: Array
+          items: String
+          description: imagen del producto
+      example:
+        title: Teclado
+        description: Inalambrico con bluetooth
+        price: 976
+        code: sadf
+        category: Tecnologia
+        stock: 300
+        thumbnails: ["pepe.jpeg"]

@@ -1,0 +1,281 @@
+paths:
+  /api/carts/:
+    post:
+      summary: Crear carrito
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Carrito creado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Carts"
+        "500":
+          description: Error con el servidor
+  /api/carts/{cid}:
+    get:
+      summary: Obtener un carrito especifico
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del carrito a obtener
+          schema:
+            $type: string
+      responses:
+        "200":
+          description: El carrito se obtuvo correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Carts"
+        "500":
+          description: Error con el servidor
+        "401":
+          description: Id invalido
+    put:
+      summary: Actualizar productos del carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del carrito a actualizar sus productos
+          schema:
+            $type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/createUpdateProduct"
+      responses:
+        "200":
+          description: El producto del carrito se actualizo correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Carts"
+        "500":
+          description: Error con el servidor
+        "401":
+          description: Id invalido
+    delete:
+      summary: Vaciar los productos del carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del carrito a vaciar
+          schema:
+            $type: string
+      responses:
+        "200":
+          description: El carrito se vacio correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/DeleteCarts"
+        "500":
+          description: Error con el servidor
+        "401":
+          description: Id invalido
+    /api/carts/:
+    post:
+      summary: Crear carrito
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Carrito creado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Carts"
+        "500":
+          description: Error con el servidor
+  /api/carts/{cid}/product/{pid}:
+    post:
+      summary: Agregar un producto al carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del carrito para actualizar
+          schema:
+            $type: string
+        - name: pid
+          in: path
+          required: true
+          description: El id del producto para actualizar
+          schema:
+            $type: string
+      responses:
+        "200":
+          description: Producto agregado correctamente al carrito
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Carts"
+        "500":
+          description: Error con el servidor
+        "401":
+          description: Id invalido
+    delete:
+        summary: Eliminar un producto del carrito
+        tags:
+          - Carts
+        parameters:
+          - name: cid
+            in: path
+            required: true
+            description: El id del carrito 
+            schema:
+              $type: string
+          - name: pid
+            in: path
+            required: true
+            description: El id del producto para eliminar
+            schema:
+              $type: string
+        responses:
+          "200":
+            description: Producto eliminado correctamente del carrito
+            content:
+              application/json:
+                schema:
+                  $ref: "#components/schemas/Carts"
+          "500":
+            description: Error con el servidor
+          "401":
+            description: Id invalido
+    put:
+      summary: Actualizar la cantidad de un producto especifico
+      tags:
+        - Carts
+      parameters:
+          - name: cid
+            in: path
+            required: true
+            description: El id del carrito 
+            schema:
+              $type: string
+          - name: pid
+            in: path
+            required: true
+            description: El id del producto para actualizar su cantidad
+            schema:
+              $type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/updateProductQuantiy"
+      responses:
+        "200":
+          description: La cantidad del producto se actualizo correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Carts"
+        "500":
+          description: Error con el servidor
+        "401":
+          description: Id invalido 
+  /api/carts/{cid}/purchase:
+    post:
+      summary: Finalizar compra de carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del carrito para finalizar la compra
+          schema:
+            $type: string
+      responses:
+        "200-1":
+          description: Compra realizada con exito
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/PruchaseCart"
+        "200-2":
+          description: Compra parcial por falta de stock de ciertos productos
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/PruchasePartialCart"
+        "500":
+          description: Error con el servidor
+        "401":
+          description: Id invalido 
+
+components:
+  schemas:
+    Carts:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: id generado por base de datos
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              productid:
+                type: ObjectId
+              quantity:
+                type: number
+      example:
+        _id: 658c936191666c1f219f5e49
+        products: [{productid: 658c936191666c1f219f5e423,quantity: 4} ]
+    DeleteCarts:
+      type: object
+      properties:
+        status:
+          type: string
+        data:
+          type: string
+      example:
+        status: succes
+        data: producto eliminado del carrito 
+    PruchaseCart:  
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+      example:
+        status: succes
+        message: compra realizada
+    PruchasePartialCart:  
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+      example:
+        status: succes
+        message: compra realizada parcialmente por falta de stock de ciertos productos
+  requestBodies:
+    updateProductQuantiy:
+      type: object
+      properties:
+        quantity:
+         type: number
+      example:
+        quantity: 4

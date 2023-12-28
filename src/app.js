@@ -1,6 +1,8 @@
 import express from "express";
 import "express-async-errors";
 import {config} from "./config/config.js"
+import {swaggerSpecs} from "./config/swagger.config.js";
+import swaggerUI from "swagger-ui-express"
 import { __dirname } from "./utils.js";
 import { productsRoute } from "./routes/products.routes.js";
 import { notFound } from "./middlewares/notFound.js";
@@ -63,6 +65,7 @@ app.set("views", path.join(__dirname, "./views"));
 app.use("/api/products", productsRoute);
 app.use("/api/carts", cartRoute);
 app.use("/api/session",sessionRoute);
+app.use("/api/docs",swaggerUI.serve,swaggerUI.setup(swaggerSpecs))
 app.use(viewsRoutes);
 
 

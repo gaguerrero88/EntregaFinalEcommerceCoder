@@ -44,7 +44,7 @@ class ProductControllers {
       if(userProd.role === "Premium"){
       await sendProductDeleteEmail (req,userProd.email,productDelete)
     }
-    res.status(200).json({ message: 'Producto eliminado con exito' });
+    res.status(200).json({ message: 'Producto eliminado correctamente' });
     } else {
       throw new ClientError("No tiene los permisos para elminar productos");
     }

@@ -41,5 +41,8 @@ export const config = {
     account: process.env.ADMIN_EMAIL,
     password: process.env.ADMIN_PASS,
     secretToken: process.env.TOKEN_EMAIL
+  },
+  server: {
+    port: process.env.PORT
   }
 };

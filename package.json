@@ -6,8 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-dev": "node src/app.js --mode development",
-    "start-prod": "node src/app.js --mode production"
+    "start": "node src/app.js"
   },
   "keywords": [],
   "author": "",

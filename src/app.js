@@ -1,6 +1,6 @@
 import express from "express";
 import "express-async-errors";
-import {config} from "./config/config.js"
+import { config } from "./config/config.js";
 import {swaggerSpecs} from "./config/swagger.config.js";
 import swaggerUI from "swagger-ui-express"
 import { __dirname } from "./utils.js";
@@ -25,6 +25,7 @@ import cors from "cors"
 import { userRoute } from "./routes/user.routes.js";
 
 
+
 // Configuración de Handlebars
 const hbs = exphbs.create({
   extname: ".hbs",
@@ -42,7 +43,7 @@ initializePassport();
 app.use (passport.initialize())
 
 
-const port = 8080;
+const port = config.server.port || 8080;
 
 const httpServer = app.listen(port, () => {
   logger.info(`Escuchando en puerto ${port}...`);

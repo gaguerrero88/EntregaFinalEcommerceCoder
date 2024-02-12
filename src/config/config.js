@@ -37,4 +37,9 @@ export const config = {
   logger: {
     env: process.env.NODE_ENVIROMENT,
   },
+  gmail: {
+    account: process.env.ADMIN_EMAIL,
+    password: process.env.ADMIN_PASS,
+    secretToken: process.env.TOKEN_EMAIL
+  }
 };

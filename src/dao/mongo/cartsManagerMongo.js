@@ -98,4 +98,9 @@ export class CartsManagerMongo {
     return getCartUpdated;
   }
 
+  async deleteCart (cartId){
+    const result = await this.model.findByIdAndDelete (cartId)
+    return result
+  }
+
 }

@@ -2,6 +2,7 @@ import { UsersDto } from "../dao/dto/users.dto.js";
 import { productServices,cartsServices, userServices } from "../repository/index.js";
 
 
+
 class ViewsController {
   async homeView(req, res) {
     const { limit = 3, page = 1, category, stock } = req.query;
@@ -76,15 +77,19 @@ async cartsView (req,res) {
   const {cartId} = req.user
     const result = await cartsServices.getCartByID(cartId);
     const { products } = result[0];
-    res.render("cartproducts", { products,cartId});
+    products.forEach((product) => {
+      product.cid = cartId;
+  });
+    res.render("cartproducts", {products,cartId});
 }
 
 async profileView (req,res){
     if (req.user && req.user.email) {
         const userEmail = req.user.email;
+        const {message} = req.query
         const result = await userServices.getUserByEmail (userEmail)
         const user = new UsersDto (result)
-        return res.render("profile", {user});
+        return res.render("profile", {user,message});
       }
       res.render("profile", { message: `Inicie sesión para visualizar su perfil` });
 }
@@ -97,6 +102,13 @@ async homePageView (req,res){
     res.render("login");
 }
 
+async usersEcommerce (req,res){
+  const {message} = req.query
+  const users = await userServices.getUsers ()
+  const result = users.filter(u => u.role === "User");
+  console.log(result);
+  res.render ("usersEcommerce",{users:result,message})
+}
 
 }
 

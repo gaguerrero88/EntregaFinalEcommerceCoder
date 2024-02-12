@@ -1,6 +1,22 @@
 <h1>Profile</h1>
 {{#if user.name}}
   <h3>Bienvenido {{user.name}}</h3>
+  <h4>Cuenta Verificada: {{user.status}}</h4>
+  {{error}}
+  {{message}}
+<form action="/api/users/{{user._id}}/documents" method="POST" name="documents", enctype="multipart/form-data">
+  <br/><br/>
+  <h4>Cargue su identificacion</h4>
+<input type="file" name="identificacion">
+<br/><br/>
+<h4>Cargue un comprobante de domicilio</h4>
+<input type="file" name="domicilio">
+<br/><br/>
+<h4>Cargue un comprobante de estado de cuenta</h4>
+<input type="file" name="estadoDeCuenta">
+<br/><br/>
+<input type="submit" value="Subir Archivos" >
+ </form>
 {{else}}
   <h3>{{message}}</h3>
 {{/if}}
@@ -9,4 +25,5 @@
 {{#if user.name}}
 <a href="/api/session/logout">Cerrar sesion</a>
 {{/if}}
+
 

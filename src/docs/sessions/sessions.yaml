@@ -1,0 +1,253 @@
+paths:
+  /api/sessions/register:
+    post:
+      summary: Crear Usuario
+      tags:
+        - Sessions
+      responses:
+        "200":
+          description: Usuario creado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/User"
+        "500":
+          description: Error con el servidor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/createUser"
+  /api/sessions/login:
+    post:
+      summary: Endpoint para iniciar sesion
+      tags:
+        - Sessions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/Login"
+      responses:
+        "200":
+          description: Usuario logueado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Login"
+        "500":
+          description: Something went wrong try again later
+        "409":
+          description: Invalid credentials
+        "404":
+          description: Route does not exist
+    put:
+      summary: Actualizar productos del carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del carrito a actualizar sus productos
+          schema:
+            $type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/createUpdateProduct"
+      responses:
+        "200":
+          description: El producto del carrito se actualizo correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Carts"
+        "500":
+          description: Error con el servidor
+        "401":
+          description: Id invalido
+        "404":
+          description: Id de carrito no encontrado 
+    delete:
+      summary: Vaciar los productos del carrito
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: El id del carrito a vaciar
+          schema:
+            $type: string
+      responses:
+        "200":
+          description: El carrito se vacio correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/DeleteCarts"
+        "500":
+          description: Error con el servidor
+        "401":
+          description: Id invalido
+        "404":
+          description: Id de carrito no encontrado   
+
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: id generado por base de datos
+        name:
+          type: String
+          description: nombre del usuario
+        lastname:
+          type: String
+          description: apellido del usuario
+        email:
+          type: String
+          description: email del usiario
+        password:
+          type: String
+          description: password del usuario
+        age:
+          type: Number
+          description: Edad del usuario
+        role:
+          type: String
+          description: Role del usuario User,Admin o premium
+        documents:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: String
+              reference:
+                type: String
+        last_connection:
+          type: date
+          description: Ultimo inicio de sesion
+        status:
+          type: String
+          description: si el usuario cargo todos los docs (Pendiente,Incompleto o Completo)
+        avatar:
+          type: String
+          description: foto de perfil
+      example:
+        _id: ObjectId ("652849ac2b92b2717139a3a0")
+        name: Pepe
+        lastname: Gonzalez
+        email: pepe@gmail.com
+        password: 1223sdfsa
+        age: 42
+        last_connection: 2024-02-12T21:18:25.961+00:00
+        role: User
+        status: pendiente
+        avatar: pepe@gmail.com-profile-logo192.png
+        Document: ["Identificacion.pdf"]
+    logIn:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: id generado por base de datos
+        name:
+          type: String
+          description: nombre del usuario
+        lastname:
+          type: String
+          description: apellido del usuario
+        email:
+          type: String
+          description: email del usiario
+        password:
+          type: String
+          description: password del usuario
+        age:
+          type: Number
+          description: Edad del usuario
+        role:
+          type: String
+          description: Role del usuario User,Admin o premium
+        documents:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: String
+              reference:
+                type: String
+        last_connection:
+          type: date
+          description: Ultimo inicio de sesion
+        status:
+          type: String
+          description: si el usuario cargo todos los docs (Pendiente,Incompleto o Completo)
+        avatar:
+          type: String
+          description: foto de perfil
+      example:
+        _id: ObjectId ("652849ac2b92b2717139a3a0")
+        name: Pepe
+        lastname: Gonzalez
+        email: pepe@gmail.com
+        password: 1223sdfsa
+        age: 42
+        last_connection: 2024-02-12T21:18:25.961+00:00
+        role: User
+        status: pendiente
+        avatar: pepe@gmail.com-profile-logo192.png
+        Document: ["Identificacion.pdf"]
+
+  requestBodies:
+    createUser:
+      type: object
+      properties:
+        name:
+          type: String
+          description: nombre del usuario
+        lastname:
+          type: String
+          description: apellido del usuario
+        email:
+          type: String
+          description: precio del producto
+        password:
+          type: String
+          description: contrasenia
+        age:
+          type: Number
+          description: edad del usuario
+        avatar:
+          type: String
+          description: foto de perfil
+      example:
+        name: Pepe
+        lastname: Gonzalez
+        email: pepe@gmail.com
+        password: 1223sdfsa
+        age: 42
+        avatar: pepe@gmail.com-profile-logo192.png
+    Login: 
+      type: object
+      properties:
+        email:
+          type: string
+          description: Email del usuario
+        password:
+          type: string
+          description: Password del usuario
+      example:
+        email: "pepe@gmail.com"
+        password: "nantes2023"

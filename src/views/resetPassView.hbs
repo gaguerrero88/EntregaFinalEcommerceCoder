@@ -1,0 +1,9 @@
+<h1>Generacion de nuevo password</h1>
+
+<p style="color: red;">{{error}}</p>
+
+<p>Ingresa su nuevo password</p>
+<form action="/api/session/reset-password?token={{token}}" method="POST"> 
+        <input type="password" id="password" name="password" required placeholder=" new password">
+        <input type="submit" value="Enviar">
+</form>

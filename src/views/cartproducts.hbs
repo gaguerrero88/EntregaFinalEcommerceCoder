@@ -7,9 +7,12 @@
     <li> Categoria: {{this.productId.category}}</li>
     <li> Cantidad: {{this.quantity}}</li>
     <li> Thumbnails: {{this.productId.thumbnails}}</li> 
-    {{!-- <button onclick="deleteFromCart('{{this.productId._id}}')">Eliminar del carrito</button> --}}
+    <button data-product-id="{{this.productId._id}}", data-cart-id="{{this.cid}}" onclick="deleteFromCart(this)">Eliminar del carrito</button>
 </ul>
 {{/each}}
 <button onclick="purchaseFromCart('{{cartId}}')">Comprar</button> 
+<br>
+<br>
+<button onclick="EmptyCart('{{cartId}}')">Vaciar Carrito</button> 
 <script src="/socket.io/socket.io.js"> </script>
 <script src="/js/home.js"></script>

@@ -21,6 +21,9 @@ import { allowInsecurePrototypeAccess } from "@handlebars/allow-prototype-access
 import passport from "passport";
 import { initializePassport } from "./config/passportconfig.js";
 import {logger} from "./helpers/logger.js"
+import cors from "cors"
+import { userRoute } from "./routes/user.routes.js";
+
 
 // Configuración de Handlebars
 const hbs = exphbs.create({
@@ -29,25 +32,15 @@ const hbs = exphbs.create({
 });
 
 const app = express();
-
+app.use(cors());
 app.use (cookieParser())
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "/public")));
 app.use(express.urlencoded({ extended: true }));
-// app.use (session({
-//   store: MongoStore.create({
-//     ttl:6000,
-//     mongoUrl:config.mongo.url
-//   }
-//     ),
-//   secret: config.server.secretSession,
-//   resave: true,
-//   saveUninitialized:true,
-// }))
 
 initializePassport();
 app.use (passport.initialize())
-// app.use (passport.session())
+
 
 const port = 8080;
 
@@ -65,6 +58,7 @@ app.set("views", path.join(__dirname, "./views"));
 app.use("/api/products", productsRoute);
 app.use("/api/carts", cartRoute);
 app.use("/api/session",sessionRoute);
+app.use("/api/users",userRoute);
 app.use("/api/docs",swaggerUI.serve,swaggerUI.setup(swaggerSpecs))
 app.use(viewsRoutes);
 
@@ -76,21 +70,16 @@ app.use(notFound);
 
 
 
-
-
-
 io.on("connection", async (socket) => {
   const products = await productServices.getProducts();
   socket.emit("productsArray", products);
 
-  socket.on("addProduct", async (data) => {
-    await productServices.addProduct(data);
+  socket.on("addProduct", async () => {
     const products = await productServices.getProducts();
     io.emit("productsArray", products);
   });
 
   socket.on("productID", async (productID) => {
-    await productServices.deleteProduct(productID);
     const products = await productServices.getProducts();
     io.emit("productsArray", products);
   });

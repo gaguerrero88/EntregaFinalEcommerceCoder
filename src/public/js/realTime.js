@@ -1,20 +1,29 @@
 const socketClient = io();
+const productList = document.getElementById("produclist");
+const productForm = document.getElementById("creatProductForm");
 
-const proudctlist = document.getElementById("produclist");
-const proudctForm = document.getElementById("creatProductForm");
+document.addEventListener("DOMContentLoaded", () => {
+  const createProductForm = document.getElementById("creatProductForm");
 
-proudctForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const formData = new FormData(proudctForm);
-  const jsonData = {};
-  for (const [key, value] of formData.entries()) {
-    jsonData[key] = value;
-  }
-  jsonData.price = parseInt(jsonData.price);
-  jsonData.stock = parseInt(jsonData.stock);
-  jsonData.thumbnails = jsonData.thumbnails.name;
-  socketClient.emit("addProduct", jsonData);
-  proudctForm.reset();
+  createProductForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const formData = new FormData(createProductForm);
+    try {
+      const response = await fetch('/api/products', {
+        method: 'POST',
+        body: formData, // Utilizar FormData directamente como cuerpo de la solicitud
+      });
+
+      if (!response.ok) {
+        throw new Error(`¡Error HTTP! Estado: ${response.status}`);
+      }
+      socketClient.emit("addProduct", formData);
+      // Limpiar el formulario después de enviar los datos
+      createProductForm.reset();
+    } catch (error) {
+      console.error('Error al enviar el formulario:', error);
+    }
+  });
 });
 
 socketClient.on("productsArray", (data) => {
@@ -26,9 +35,22 @@ socketClient.on("productsArray", (data) => {
     <button onclick="deleteProduct('${element._id}')">Eliminar Producto</button>
     </ul>`;
   });
-  proudctlist.innerHTML = productsElements;
+  productList.innerHTML = productsElements;
 });
 
-const deleteProduct = (productID) => {
-  socketClient.emit("productID", productID);
+const deleteProduct = async (productID) => {
+  try {
+    const response = await fetch(`/api/products/${productID}`, {
+      method: 'DELETE',
+    });
+    const data = await response.json();
+    alert(data.message);
+    if (!response.ok) {
+      throw new Error(`¡Error HTTP! Estado: ${response.status}`);
+    }
+    socketClient.emit("addProduct");
+  } catch (error) {
+    console.error('Error al enviar el id:', error);
+  }
+  
 };

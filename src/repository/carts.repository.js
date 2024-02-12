@@ -39,5 +39,11 @@ constructor (dao){
         return result;
     }
 
+    async deleteCart(cartId, product) {
+      const result = await this.dao.deleteCart (cartId)
+      return result;
+  }
+
+
 }
 

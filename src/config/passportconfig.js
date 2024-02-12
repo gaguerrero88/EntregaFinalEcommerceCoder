@@ -1,11 +1,10 @@
 import localStrategy from "passport-local";
 import passport from "passport";
 import { createHash, isValidPassword } from "../utils.js";
-import { userServices,cartsServices } from "../repository/index.js";
+import { userServices, cartsServices } from "../repository/index.js";
 import { config } from "./config.js";
 import GithubStrategy from "passport-github2";
 import jwt from "passport-jwt";
-
 
 const JWTStrategy = jwt.Strategy;
 const extractJwt = jwt.ExtractJwt;
@@ -21,15 +20,15 @@ export const initializePassport = () => {
       async (req, username, password, done) => {
         const { name, lastname, age } = req.body;
         try {
-          const user = await userServices.getUserByEmail (username)
+          const user = await userServices.getUserByEmail(username);
           if (user) {
             return done(null, false);
           }
           let role;
-          if (password === "Cod3r123" && username === "adminCoder@coder.com") {
+          if (username.includes("@coder.com")) {
             role = "Admin";
           }
-            const cart = await cartsServices.createCarts ()
+          const cart = await cartsServices.createCarts();
           const newUser = {
             name,
             lastname,
@@ -37,7 +36,8 @@ export const initializePassport = () => {
             email: username,
             password: createHash(password),
             role,
-            cartId: cart._id
+            cartId: cart._id,
+            avatar: req.file.filename
           };
           const userCreated = await userServices.createUser(newUser);
           return done(null, userCreated);
@@ -64,6 +64,8 @@ export const initializePassport = () => {
           if (!validPass) {
             return done(null, false);
           }
+          user.last_connection = new Date ()
+          await userServices.updateUserById (user._id,user)
           return done(null, user);
         } catch (error) {
           return done(error);
@@ -93,7 +95,7 @@ export const initializePassport = () => {
             email: profile.username,
             password: createHash(profile.id),
           };
-          const userCreated = await userServices.createUser (newUser);
+          const userCreated = await userServices.createUser(newUser);
           return done(null, userCreated);
         } catch (error) {
           return done(error);
@@ -102,19 +104,18 @@ export const initializePassport = () => {
     )
   );
 
-
   passport.use(
     "jwtAuth",
     new JWTStrategy(
       {
+        //Extraer la informacion del token
         jwtFromRequest: extractJwt.fromExtractors([cookieExtractor]),
         secretOrKey: config.jwt.pass,
       },
       async (jwtPayload, done) => {
         try {
-          return done(null, jwtPayload);
+          return done(null, jwtPayload); //req.user = info del token
         } catch (error) {
-          console.log(error);
           return done(error);
         }
       }
@@ -122,12 +123,14 @@ export const initializePassport = () => {
   );
 };
 
+//funcion para extraer el token de la cookie
 const cookieExtractor = (req) => {
   let token;
-  if (req?.cookies) {
+  if (req && req.cookies) {
+    //req?.cookies
     token = req.cookies["cookieToken"];
   } else {
     token = null;
   }
-  return token
+  return token;
 };

@@ -1,8 +1,8 @@
 <h1>Pagina Real Time</h1>
-{{#if userRole}}
+
   
 <h2>Formulario para crear producto</h2>
-<form id="creatProductForm">
+<form id="creatProductForm" action="/api/products" method="POST" name="CreateProduct" enctype="multipart/form-data">
 <input type="text" placeholder="Nombre del producto" name="title" required>
 <br><br>
 <input type="text" placeholder="Descripción del producto" name="description" required>
@@ -13,16 +13,18 @@
 <br><br>
 <input type="number" placeholder="Stock del producto" name="stock" required>
 <br><br>
-<input type="text" placeholder="Categoría del producto" name="category" required>
+<select name="category" required>
+  <option value="">Selecciona una categoría</option>
+  <option value="Deportes">Deportes</option>
+  <option value="Tecnologia">Tecnologia</option>
+  <option value="Ropa">Ropa</option>
+</select>
 <br><br>
-<input type="file", name="thumbnails">
+<p>Foto del producto</p>
+<input type="file", name="imageProd" required>
 <br><br>
 <button type="submit">Agregar Producto</button>
 </form>
-{{else}}
-<h3>No posee el rol de administrador para poder acceder a esta sección</h3>
-{{/if}}
-
 <div id="produclist"></div>
 <script src="/socket.io/socket.io.js"> </script>
 <script src="/js/realTime.js"></script>

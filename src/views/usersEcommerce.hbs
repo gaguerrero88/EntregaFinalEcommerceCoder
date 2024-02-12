@@ -1,0 +1,14 @@
+<h1>Users Ecommerce</h1>
+ <br>
+{{#each users}}
+<ul>
+    <li> Nombre del usuario: {{this.name}} {{this.lastname}}</li>
+    <li> Edad: {{this.age}}</li>
+    <li> Rol: {{this.role}}</li>
+    <li> Email: {{this.email}}</li>
+    <li> Status: {{this.status}}</li>
+    <button onclick="deleteUser('{{this._id}}')">Eliminar Usuario</button>
+    <button onclick="modifyRole('{{this._id}}')">Modificar Rol</button>
+</ul>
+{{/each}}
+<script src="/js/home.js"></script>
